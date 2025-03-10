@@ -3,9 +3,11 @@ package com.pranshu.signup.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 public class CorsConfig {
 
     @Bean
@@ -13,13 +15,14 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // Allow all API routes
-                        .allowedOrigins("http://localhost:5173", "https://loginsignup.up.railway.app") // ✅ Allow frontend URLs
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow essential HTTP methods
+                registry.addMapping("/**") // Allow all endpoints
+                        .allowedOrigins("http://127.0.0.1:5500", "http://localhost:5500") // Allow frontend URLs
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow necessary methods
                         .allowedHeaders("*") // Allow all headers
-                        .allowCredentials(true); // Required for cookies, sessions, and authentication
+                        .exposedHeaders("Authorization") // Allow frontend to read token if needed
+                        .allowCredentials(true) // Enable cookies/authentication if needed
+                        .maxAge(3600); // Cache the CORS policy for 1 hour
             }
         };
     }
 }
-
