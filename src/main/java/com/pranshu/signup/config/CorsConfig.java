@@ -7,17 +7,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig {
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // Allow all API endpoints
-                        .allowedOrigins("*")  // Allow all frontend URLs (can restrict later)
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow these HTTP methods
-                        .allowedHeaders("*")  // Allow all headers
-                        .allowCredentials(true); // Needed if using cookies/authentication
+                registry.addMapping("/api/**") // Allow all API routes
+                        .allowedOrigins("http://localhost:5173", "https://loginsignup.up.railway.app") // ✅ Allow frontend URLs
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allow essential HTTP methods
+                        .allowedHeaders("*") // Allow all headers
+                        .allowCredentials(true); // Required for cookies, sessions, and authentication
             }
         };
     }
 }
+
